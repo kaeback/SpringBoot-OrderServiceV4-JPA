@@ -28,7 +28,7 @@ public class UserService implements UserDetailsService {
         Optional<Member> member = memberRepository.findById(username);
 
         if (member.isPresent()) {
-            return new PrincipalDetails(member.get());
+            return new UserInfo(member.get());
         }
         throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
     }

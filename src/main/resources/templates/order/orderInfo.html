@@ -8,7 +8,7 @@
 <body>
 <div id="container">
     <h1>주문정보 확인</h1>
-    <table th:object="${orders}">
+    <table th:object="${order}">
         <tr>
             <th>주문 아이디</th>
             <td th:text="*{order_id}"></td>
@@ -33,7 +33,7 @@
     <p>
     <div class="center">
         <input type="button" onclick="location.href='/product/products'" value="상품목록">
-        <input type="button" th:onclick="|location.href='@{/orders/withdrawOrder(order_id=${orders.order_id})}'|" value="주문취소">
+        <input type="button" th:onclick="|location.href='@{/orders/withdrawOrder(order_id=${order.order_id})}'|" value="주문취소">
     </div>
 </div>
 </body>

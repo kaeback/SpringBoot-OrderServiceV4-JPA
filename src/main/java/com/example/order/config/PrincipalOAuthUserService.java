@@ -23,11 +23,7 @@ public class PrincipalOAuthUserService extends DefaultOAuth2UserService {
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        log.info("getClientRegistration: {}", userRequest.getClientRegistration());
-        log.info("getAccessToken: {}", userRequest.getAccessToken());
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        log.info("getAttributes: {}", oAuth2User.getAttributes());
-
         String provider = userRequest.getClientRegistration().getRegistrationId();
         // 구글 로그인
         String name = null;
@@ -55,8 +51,10 @@ public class PrincipalOAuthUserService extends DefaultOAuth2UserService {
 
         // 처음 로그인 하는 아이디이면 회원 가입을 시킨다.
         Optional<Member> findMember = memberRepository.findById(email);
-        findMember.ifPresent(memberRepository::save);
+        if (!findMember.isPresent()) {
+            memberRepository.save(member);
+        }
 
-        return new PrincipalDetails(member, oAuth2User.getAttributes());
+        return new UserInfo(member, oAuth2User.getAttributes());
     }
 }

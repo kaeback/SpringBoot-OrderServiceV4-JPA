@@ -7,9 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * 로그인이 완료되면 시큐리티 세션을 만들어 준다. (Security ContextHolder)
@@ -19,11 +21,30 @@ import java.util.Collection;
  * Security Session => Authentication => UserDetails
  */
 @Slf4j
-@AllArgsConstructor
 @Data
-public class UserInfo implements UserDetails {
+public class UserInfo implements UserDetails, OAuth2User {
 
     private Member member;
+    private Map<String, Object> attributes;
+
+    public UserInfo(Member member) {
+        this.member = member;
+    }
+
+    public UserInfo(Member member, Map<String, Object> attributes) {
+        this(member);
+        this.attributes = attributes;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    @Override
+    public String getName() {
+        return member.getName();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -69,4 +90,5 @@ public class UserInfo implements UserDetails {
         // 계정 사용 가능 여부 리턴
         return true;
     }
+
 }

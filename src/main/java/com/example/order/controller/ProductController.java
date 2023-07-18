@@ -22,7 +22,7 @@ public class ProductController {
     @GetMapping("products")
     public String list(Model model) {
         model.addAttribute("products", productService.findProducts());
-        return "/product/productList";
+        return "product/productList";
     }
 
     // 아이템 상세 페이지
@@ -32,6 +32,6 @@ public class ProductController {
         Product product = productService.findProductById(product_id);
         OrderProductForm orderProductForm = Product.toOrderProductForm(product);
         model.addAttribute("orderProductForm", orderProductForm);
-        return "/product/productInfo";
+        return "product/productInfo";
     }
 }

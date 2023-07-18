@@ -18,13 +18,13 @@ spring:
   # data.sql 파일의 초기 데이터를 삽입한다.
   sql:
     init:
-      mode: always
+      mode: never
       encoding: utf-8
 
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     # EntityManagerFactory Bean 을 생성하고 초기화를 마칠 때 까지 DataSource 초기화를 미룬다.
     defer-datasource-initialization: true
     properties:

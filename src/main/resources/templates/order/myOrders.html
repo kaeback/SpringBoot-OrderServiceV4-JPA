@@ -16,12 +16,12 @@
       <th>가격</th>
       <th>주문일</th>
     </tr>
-    <tr th:if="${orders.size() > 0}" th:each="orders : ${orders}">
+    <tr th:if="${orders.size() > 0}" th:each="order : ${orders}">
       <td class="center" th:text="${orderStat.count}"></td>
-      <td class="center"><a th:href="@{/orders/orderInfo(order_id=${orders.order_id})}" th:text="${orders.product.name}"></a></td>
-      <td class="center" th:text="${orders.count}"></td>
-      <td class="center" th:text="${orders.order_price}"></td>
-      <td class="center" th:text="${orders.order_date}"></td>
+      <td class="center"><a th:href="@{/orders/orderInfo(order_id=${order.order_id})}" th:text="${order.product.name}"></a></td>
+      <td class="center" th:text="${order.count}"></td>
+      <td class="center" th:text="${order.order_price}"></td>
+      <td class="center" th:text="${order.order_date}"></td>
     </tr>
     <tr th:unless="${orders.size() > 0}">
       <td class="center" colspan="5">주문 내역이 없습니다.</td>

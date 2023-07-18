@@ -20,10 +20,9 @@ public class OrderService {
     // 주문하기
     @Transactional
     public void saveOrder(Orders orders) {
-        orderRepository.saveOrder(orders);
+        orderRepository.save(orders);
         // 상품 재고 수정
         orders.getProduct().adjustStock(-orders.getCount());
-        productRepository.updateProduct(orders.getProduct());
     }
 
     // 주문목록
@@ -33,7 +32,7 @@ public class OrderService {
 
     // 주문상세정보
     public Orders findOrderById(Long order_id) {
-        return orderRepository.findOrderById(order_id);
+        return orderRepository.findById(order_id).orElse(null);
     }
 
     // 주문삭제
@@ -42,9 +41,7 @@ public class OrderService {
         // 재고 수량 조정
         orders.getProduct().adjustStock(orders.getCount());
         // 주문 내역 삭제
-        orderRepository.removeOrderById(orders.getOrder_id());
-        // 상품 재고 정보 수정
-        productRepository.updateProduct(orders.getProduct());
+        orderRepository.delete(orders);
     }
 
 }

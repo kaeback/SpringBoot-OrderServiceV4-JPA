@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.Date;
 
 @Slf4j
-@RestControllerAdvice(basePackageClasses = {MemberApiController.class})
+//@RestControllerAdvice(basePackageClasses = {MemberApiController.class})
 public class RestControllerExceptionAdvice {
 
     @ExceptionHandler

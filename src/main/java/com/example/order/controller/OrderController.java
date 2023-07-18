@@ -15,10 +15,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
-@RequestMapping("order")
+@RequestMapping("orders")
 @RequiredArgsConstructor
 @Controller
 public class OrderController {
@@ -41,17 +42,18 @@ public class OrderController {
         orderProductForm.setStock(product.getStock());
 
         if (bindingResult.hasErrors()) {
-            return "/product/productInfo";
+            return "product/productInfo";
         }
 
         // 재고량 보다 주문수량이 더 많으면 주문처리를 하지 않는다.
         if (product.getStock() < orderProductForm.getCount()) {
             bindingResult.rejectValue("count", "countError", "재고 수량이 부족합니다.");
-            return "/product/productInfo";
+            return "product/productInfo";
         }
 
         // 주문 객체를 생성
         Orders orders = OrderProductForm.toOrder(orderProductForm, userInfo.getMember(), product);
+        orders.setOrder_date(LocalDateTime.now());
         // 주문내역 저장
         orderService.saveOrder(orders);
 
@@ -62,6 +64,7 @@ public class OrderController {
     public String myOrders(@AuthenticationPrincipal UserInfo userInfo,
                            Model model) {
         List<Orders> orders = orderService.findOrdersByMemberId(userInfo.getMember().getMember_id());
+        log.info("orders.size: {}", orders.size());
         model.addAttribute("orders", orders);
         return "order/myOrders";
     }

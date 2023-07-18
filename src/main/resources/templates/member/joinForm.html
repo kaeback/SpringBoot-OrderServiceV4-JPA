@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+    <link rel="stylesheet" href="/css/default.css">
+</head>
+<body>
+<div id="container">
+  <h1>회원가입</h1>
+  <form action="/member/join" method="post" th:object="${joinForm}">
+    <table>
+      <tr>
+        <th>아이디</th>
+        <td>
+          <input type="text" th:field="*{member_id}">
+          <div th:errorClass="error" th:errors="*{member_id}"></div>
+        </td>
+      </tr>
+      <tr>
+        <th>패스워드</th>
+        <td>
+          <input type="password" th:field="*{password}">
+          <div th:errorClass="error" th:errors="*{password}"></div>
+        </td>
+      </tr>
+      <tr>
+        <th>이름</th>
+        <td>
+          <input type="text" th:field="*{name}">
+          <div th:errorClass="error" th:errors="*{name}"></div>
+        </td>
+      </tr>
+      <tr>
+        <th>성별</th>
+        <td>
+          <th:block th:each="gender : ${T(com.example.order.model.member.GenderType).values()}">
+            <label th:for="${#ids.next('gender')}">[[${gender.description}]]</label>
+            <input type="radio" th:field="*{gender}" th:value="${gender}">
+          </th:block>
+          <div th:errorClass="error" th:errors="*{gender}"></div>
+        </td>
+      </tr>
+      <tr>
+        <th>생년월일</th>
+        <td>
+          <input type="date" th:field="*{birth}">
+          <div th:errorClass="error" th:errors="*{birth}"></div>
+        </td>
+      </tr>
+      <tr>
+        <th>이메일</th>
+        <td>
+          <input type="email" th:field="*{email}">
+          <div th:errorClass="error" th:errors="*{email}"></div></td>
+      </tr>
+    </table>
+    <p>
+    <div class="center">
+      <input type="submit" value="회원가입">
+      <input type="reset" value="다시작성">
+  </div>
+  </form>
+</div>
+</body>
+</html>

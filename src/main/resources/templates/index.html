@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>메인 페이지</title>
+    <link rel="stylesheet" href="/css/default.css">
+</head>
+<body>
+<div id="container">
+  <h1>메인 페이지</h1>
+    <th:block sec:authorize="isAnonymous()">
+      <input type="button" onclick="location.href='member/join'" value="회원가입">
+      <input type="button" onclick="location.href='member/login'" value="로그인">
+      <input type="button" onclick="location.href='/oauth2/authorization/google'" value="구글 로그인">
+      <input type="button" onclick="location.href='/oauth2/authorization/kakao'" value="카카오 로그인">
+    </th:block>
+    <th:block sec:authorize="isAuthenticated()">
+        <input type="button" onclick="location.href='member/logout'" value="로그아웃">
+        <input type="button" onclick="location.href='product/products'" value="상품목록">
+        <input type="button" onclick="location.href='orders/myOrders'" value="주문내역">
+    </th:block>
+    <div sec:authorize="isAuthenticated()">
+        This content is only shown to authenticated users.<br>
+        Logged user: <span sec:authentication="name">Bob</span><br>
+        user: <span sec:authentication="principal">Bob</span><br>
+        Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
+    </div>
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+        This content is only shown to administrators.
+    </div>
+    <div sec:authorize="hasRole('ROLE_USER')">
+        This content is only shown to users.
+    </div>
+</div>
+</body>
+</html>
